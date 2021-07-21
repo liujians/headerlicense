@@ -1,14 +1,9 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from 'vscode';
-
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export function activate(context: vscode.ExtensionContext) {
-
-	
-	const license:string = vscode.workspace.getConfiguration().get('headerLicense.license')||"";
-	const template:string = license;
 // 	const temp = `/*
 // 	* Licensed Materials - Property of ROOTCLOUD
 // 	* THIS MODULE IS "RESTRICTED MATERIALS OF ROOTCLOUD"
@@ -33,26 +28,28 @@ export function activate(context: vscode.ExtensionContext) {
 
 	vscode.workspace.onWillSaveTextDocument(file=>{
 		if (!file.document.isDirty) return
+		const license:string = vscode.workspace.getConfiguration().get('headerLicense.license')||"";
+		const template:string = license;
 		const editor = vscode.window.activeTextEditor;
 		editor?.edit(editBuilder=>{
-			console.log("====")
-			console.log(file.document.getText());
-			console.log("====")
-			console.log(template);
-			console.log("====")
+			console.log(editor?.document.languageId !== 'javascript'&&editor?.document.languageId !== 'typescript'&&editor?.document.languageId !== 'typescriptreact')
+			if(editor?.document.languageId !== 'javascript'&&editor?.document.languageId !== 'typescript'&&editor?.document.languageId !== 'typescriptreact') return;
 			if(!file.document.getText().includes(template)){
 				editBuilder.insert(new vscode.Position(0, 0), template+"\n")
 			}
 		})
-		vscode.window.showInformationMessage('保存了');
+		// vscode.window.showInformationMessage('保存了');sss
 	})
 
 	vscode.workspace.onDidCreateFiles((file) => {
+		const license:string = vscode.workspace.getConfiguration().get('headerLicense.license')||"";
+		const template:string = license;
 		const filePath = file.files[0].fsPath
 		const openPath = vscode.Uri.file(filePath)
 		vscode.workspace.openTextDocument(openPath).then((doc) => {
 			vscode.window.showTextDocument(doc).then(() => {
 					const editor = vscode.window.activeTextEditor // 每次运行选中文件
+					if(editor?.document.languageId !== 'javascript'&&editor?.document.languageId !== 'typescript'&&editor?.document.languageId !== 'typescriptreact') return;
 					editor?.edit(editBuilder=>{
 							editBuilder.insert(new vscode.Position(0, 0), template+"\n")
 					})

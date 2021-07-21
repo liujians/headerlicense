@@ -1,12 +1,13 @@
 {
   "name": "headerlicense",
   "displayName": "headerlicense",
-  "description": "",
-  "version": "0.0.1",
+  "description": "快速在文件头部生成注释的插件，通常用于author/license",
+  "version": "0.0.3",
   "publisher": "liujians",
   "engines": {
     "vscode": "^1.58.0"
   },
+  "icon": "images/logo.png",
   "keywords": [
     "license",
     "headerlicense"
